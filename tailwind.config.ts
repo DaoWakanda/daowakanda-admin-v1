@@ -17,6 +17,7 @@ const config: Config = {
         roboto: ['Roboto', 'sans-serif'],
         inter: ['Inter', 'sans-serif'],
         avenir: ['var(--font-avenir)'],
+        poppins: ['Poppins', 'sans-serif'],
       },
     },
   },
