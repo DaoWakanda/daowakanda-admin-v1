@@ -1,16 +1,16 @@
 'use client';
 
 import { useClient } from '@/hooks/use-client';
-import { ITrivia } from '@/interface/challenge.interface';
+import { FetchPaginatedTrivia, ITrivia } from '@/interface/challenge.interface';
 import { ICreateChallengeDto } from '@/interface/developer.interface';
-import { FetchPaginatedDataDto, PaginationResponse } from '@/interface/pagination.interface';
+import { PaginationResponse } from '@/interface/pagination.interface';
 import { generateQueryFromObject } from '@/utils';
 import toast from 'react-hot-toast';
 
 export const useChallengeActions = () => {
   const client = useClient();
 
-  const getAllChallenges = async (dto: FetchPaginatedDataDto) => {
+  const getAllChallenges = async (dto: FetchPaginatedTrivia) => {
     const query = generateQueryFromObject(dto);
     const url = `/trivia/all?${query}`;
 

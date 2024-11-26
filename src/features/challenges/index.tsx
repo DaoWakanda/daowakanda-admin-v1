@@ -2,29 +2,30 @@
 
 import React, { ReactNode, useEffect, useState } from 'react';
 import styles from './index.module.scss';
-import { CreateTaskModal } from './create-task-modal';
+import { CreateTaskModal } from '../dashboard/create-task-modal';
 import { FaPlus } from 'react-icons/fa';
-import { TaskCard, TaskCardLoader } from './task-card';
-import { LowerSection } from './lower-section';
+import { TaskCard, TaskCardLoader } from '../dashboard/task-card';
+// import { LowerSection } from './lower-section';
 import Link from 'next/link';
 import { ITrivia } from '@/interface/challenge.interface';
 import { useChallengeActions } from '@/actions/challenge';
 import { useRecoilValue } from 'recoil';
 import { RefreshChallengesAtom } from '@/state/challenge.atom';
+import { LowerSection } from './lower-section';
 
 interface Props {
   children?: ReactNode;
   pageTitle?: string;
 }
 
-export function Dashboard() {
+export function Challenges() {
   const [createModal, setCreateModal] = useState(false);
   const [tasks, setTasks] = useState<ITrivia[]>();
   const { getAllChallenges } = useChallengeActions();
   const refresh = useRecoilValue(RefreshChallengesAtom);
 
   const fetchChallenges = async () => {
-    const response = await getAllChallenges({ order: 'desc' });
+    const response = await getAllChallenges({ order: 'desc', status: 'ongoing' });
 
     if (response) {
       setTasks(response.data);
@@ -39,25 +40,10 @@ export function Dashboard() {
     <>
       <div className={styles['container']}>
         <div className="flex flex-col gap-2">
-          <div className="flex flex-row justify-end items-center gap-[94px]">
-            <div className="text-[#C7C7CC] font-[800] font-avenir text-2xl">
-              Recently created challenges
-            </div>
-            <Link
-              className="font-poppins text-[#C7C7CC] text-sm font-[400]"
-              href="/dashboard/challenges"
-            >
-              view all
-            </Link>
+          <div className="flex flex-row items-center gap-[94px]">
+            <div className="text-[#C7C7CC] font-[800] font-avenir text-2xl">Ongoing Challenges</div>
           </div>
           <div className={styles['top-section']}>
-            <div className={styles['left']}>
-              <div className={styles['title']}>Manage all challenges</div>
-              <div className={styles['body-text']}>
-                You’re now able to manage task. This includes creating new tasks, editing and
-                deleting previous tasks
-              </div>
-            </div>
             <div className={styles['right']}>
               <div className={styles['create']} onClick={() => setCreateModal(true)}>
                 <FaPlus className={styles['icon']} />

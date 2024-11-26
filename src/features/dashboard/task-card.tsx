@@ -7,6 +7,11 @@ import { calculateCountdown } from '@/utils/calculate-countdown';
 import { ITrivia } from '@/interface/challenge.interface';
 import Skeleton from 'react-loading-skeleton';
 import { EditTaskModal } from './edit-task-modal';
+import { useSetRecoilState } from 'recoil';
+import { RefreshChallengesAtom } from '@/state/challenge.atom';
+import { useChallengeActions } from '@/actions/challenge';
+import toast from 'react-hot-toast';
+import { PromptModal } from '@/components/prompt-modal';
 
 interface Props {
   challenge: ITrivia;
@@ -14,18 +19,35 @@ interface Props {
 
 export function TaskCard({ challenge }: Props) {
   const [isActive, setIsActive] = useState(false);
-  const [countdown, setCountdown] = useState('00:00:00');
+  const [countdown, setCountdown] = useState('00:00:00:00');
   const [editModal, setEditModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const { deleteChallenge } = useChallengeActions();
+  const setRefresh = useSetRecoilState(RefreshChallengesAtom);
 
   const endTime = challenge.endTimeStamp || 0;
+
+  const onDelete = async () => {
+    if (deleting) return;
+
+    setDeleting(true);
+    const response = await deleteChallenge(challenge.id);
+    setDeleting(false);
+
+    if (response) {
+      toast.success('Challenge deleted successfully');
+      setRefresh((old) => old + 1);
+      setDeleteModal(false);
+    }
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCountdown(() => {
         const countdownTime = calculateCountdown(endTime);
 
-        if (countdownTime === '00:00:00') {
+        if (countdownTime === '00:00:00:00') {
           clearInterval(interval);
           return 'Ended';
         }
@@ -54,7 +76,7 @@ export function TaskCard({ challenge }: Props) {
             <StopWatchIcon />
           </div>
           <div className="text-[#8E8E93] font-[600] text-sm font-roboto">{countdown}</div>
-          <ChallengeDifficultyIndicator difficulty="novice" />
+          <ChallengeDifficultyIndicator difficulty={challenge.difficulty} />
         </div>
 
         {isActive && (
@@ -91,6 +113,18 @@ export function TaskCard({ challenge }: Props) {
           onClose={() => setEditModal(false)}
         />
       )}
+
+      <PromptModal
+        title="Delete Task"
+        onClose={() => setDeleteModal(false)}
+        visible={deleteModal}
+        description="Are you sure you want to delete this task?"
+        noButtonText="Cancel"
+        yesButtonText="Delete Task"
+        yesAction={onDelete}
+        noAction={() => setDeleteModal(false)}
+        loading={deleting}
+      />
     </>
   );
 }
