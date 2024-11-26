@@ -27,6 +27,36 @@ export const useClient = () => {
     }
   }, []);
 
+  const logout = async () => {
+    await fetch('/api/auth', {
+      method: 'DELETE',
+    });
+
+    setSession(null);
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
+  };
+
+  async function getFallBackToken(): Promise<Token | undefined> {
+    try {
+      const response = await fetch('/api/auth');
+      const data = await response.json();
+
+      if (!!data.accessToken && !!data.expiresIn && !!data.expiryTime) {
+        const newToken: Token = {
+          accessToken: data.accessToken,
+          expiresIn: data.expiresIn,
+          expiryTime: data.expiryTime,
+        };
+
+        return newToken;
+      }
+    } catch (err) {
+      return undefined;
+    }
+  }
+
   async function handleResponse<R = any, E = any>(
     response: globalThis.Response,
     redirectIfUnauthorized = true,
@@ -36,7 +66,7 @@ export const useClient = () => {
       .then(async (data) => {
         if (!response.ok) {
           if (response.status === 401 && redirectIfUnauthorized) {
-            setSession(null);
+            logout();
           }
 
           const error: E = (data && data.message) || response.statusText;
@@ -82,7 +112,7 @@ export const useClient = () => {
           method,
           headers: {
             'Content-Type': 'application/json',
-            ...generateAuthHeader(options?.token || session || undefined),
+            ...generateAuthHeader(options?.token || session || (await getFallBackToken())),
             ...options?.headers,
           },
         };
@@ -114,7 +144,14 @@ export const useClient = () => {
   ): Promise<DownloadResponse> {
     if (!response.ok) {
       if (response.status === 401 && redirectIfUnauthorized) {
+        await fetch('/api/auth', {
+          method: 'DELETE',
+        });
+
         setSession(null);
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
       }
 
       return { status: response.status, isSuccess: false, error: response.statusText };
@@ -156,7 +193,7 @@ export const useClient = () => {
           method,
           headers: {
             'Content-Type': 'application/json',
-            ...generateAuthHeader(options?.token || session || undefined),
+            ...generateAuthHeader(options?.token || session || (await getFallBackToken())),
             ...options?.headers,
           },
         };

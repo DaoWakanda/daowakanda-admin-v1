@@ -1,14 +1,15 @@
 'use client';
 
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import { CreateTaskModal } from './create-task-modal';
 import { EditTaskModal } from './edit-task-modal';
 import { FaPlus } from 'react-icons/fa';
-import { ScrollableContainer } from '@/components/scrollable-container';
-import { TaskCard } from './task-card';
+import { TaskCard, TaskCardLoader } from './task-card';
 import { LowerSection } from './lower-section';
 import Link from 'next/link';
+import { ITrivia } from '@/interface/challenge.interface';
+import { useChallengeActions } from '@/actions/challenge';
 
 interface Props {
   children?: ReactNode;
@@ -18,6 +19,20 @@ interface Props {
 export function Dashboard() {
   const [createModal, setCreateModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
+  const [tasks, setTasks] = useState<ITrivia[]>();
+  const { getAllChallenges } = useChallengeActions();
+
+  const fetchChallenges = async () => {
+    const response = await getAllChallenges({ order: 'desc' });
+
+    if (response) {
+      setTasks(response.data);
+    }
+  };
+
+  useEffect(() => {
+    fetchChallenges();
+  }, []);
 
   return (
     <>
@@ -47,9 +62,11 @@ export function Dashboard() {
                 <FaPlus className={styles['icon']} />
               </div>
               <div className={styles['cards']}>
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((_, index) => (
-                  <TaskCard key={index} showEditModal={() => setEditModal(true)} />
+                {tasks?.map((task, index) => (
+                  <TaskCard challenge={task} key={index} />
                 ))}
+                {!tasks &&
+                  Array.from({ length: 10 }).map((_, index) => <TaskCardLoader key={index} />)}
               </div>
             </div>
           </div>
@@ -61,7 +78,6 @@ export function Dashboard() {
       </div>
 
       <CreateTaskModal isActive={createModal} onClose={() => setCreateModal(false)} />
-      <EditTaskModal isActive={editModal} onClose={() => setEditModal(false)} />
     </>
   );
 }
