@@ -13,6 +13,7 @@ export interface RequestOptions {
 export interface Token {
   accessToken: string;
   expiresIn: string;
+  expiryTime?: number;
 }
 
 export interface ClientRequestOptions {

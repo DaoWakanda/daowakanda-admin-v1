@@ -7,6 +7,15 @@ const nextConfig = {
     }
     return config;
   },
+  redirects: () => {
+    return [
+      {
+        source: '/',
+        destination: '/auth/log-in',
+        permanent: false,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
