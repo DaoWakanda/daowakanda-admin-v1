@@ -1,0 +1,22 @@
+on:
+  push:
+    branches:
+      - main # Only trigger on the `main` branch
+      - production # for the production branch
+
+jobs:
+  deploy-main:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Vercel Deployment
+        run: |
+          curl -X POST https://api.vercel.com/v1/integrations/deploy/prj_a2CobAwSceBvpCwzcENbzb5GY4qO/iOzUe3Iu49
+
+  deploy-production:
+    if: github.ref == 'refs/heads/production'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Vercel Deployment
+        run: |
+          curl -X POST https://api.vercel.com/v1/integrations/deploy/prj_a2CobAwSceBvpCwzcENbzb5GY4qO/k1b6lSj5mG
