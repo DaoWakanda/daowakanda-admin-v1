@@ -5,18 +5,12 @@ import styles from './index.module.scss';
 import { CreateTaskModal } from '../dashboard/create-task-modal';
 import { FaPlus } from 'react-icons/fa';
 import { TaskCard, TaskCardLoader } from '../dashboard/task-card';
-// import { LowerSection } from './lower-section';
 import Link from 'next/link';
 import { ITrivia } from '@/interface/challenge.interface';
 import { useChallengeActions } from '@/actions/challenge';
 import { useRecoilValue } from 'recoil';
 import { RefreshChallengesAtom } from '@/state/challenge.atom';
 import { LowerSection } from './lower-section';
-
-interface Props {
-  children?: ReactNode;
-  pageTitle?: string;
-}
 
 export function Challenges() {
   const [createModal, setCreateModal] = useState(false);
