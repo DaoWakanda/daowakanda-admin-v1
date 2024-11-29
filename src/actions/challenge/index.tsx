@@ -23,6 +23,19 @@ export const useChallengeActions = () => {
     toast.error(`${response.error}`);
   };
 
+  const getChallengeById = async (id: string) => {
+    try {
+      const url = `trivia/${id}/detail`;
+      const response = await client.get(url);
+      if (response.data) {
+        return response.data as ITrivia;
+      }
+      toast.error(response.error?.toString() || 'Something went wrong');
+    } catch (error) {
+      toast.error(error?.toString() || 'Something went wrong');
+    }
+  };
+
   const createChallenge = async (dto: ICreateChallengeDto) => {
     const url = `/trivia/create`;
 
@@ -61,6 +74,7 @@ export const useChallengeActions = () => {
 
   return {
     getAllChallenges,
+    getChallengeById,
     createChallenge,
     updateChallenge,
     deleteChallenge,
