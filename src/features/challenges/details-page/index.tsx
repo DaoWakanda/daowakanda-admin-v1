@@ -183,7 +183,7 @@ export function DetailsPage() {
             </div>
           
         </div>
-        <Link className={styles['lower-btn']} href={'/dashboard/submissions'}>View Submissions</Link>
+        <Link className={styles['lower-btn']} href={`/dashboard/challenges/${params?.id}/submissions`}>View Submissions</Link>
       </div>
     </>
   );
