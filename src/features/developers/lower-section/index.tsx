@@ -6,20 +6,20 @@ import { IoSearch } from 'react-icons/io5';
 import { HiDotsVertical } from 'react-icons/hi';
 import { FiDownloadCloud } from 'react-icons/fi';
 import { FilterIcon } from '@/assets/filter.icon';
+import { Table } from '@/components/table';
+import { IDeveloper } from '@/interface/developer.interface';
+import { developersTableColumn, developersTableHeaders } from './table-info';
+import { useDeveloperActions } from '@/actions/developer';
 import { useDebounce } from '@/hooks/use-debounce';
-import { useChallengeActions } from '@/actions';
-import { ITrivia } from '@/interface/challenge.interface';
 import { PaginationResponse } from '@/interface/pagination.interface';
-import { TableExtension } from '@/components/table/table-extension';
-import { Card, CardLoader } from './card';
 
 export function LowerSection() {
-  const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
-  const { getAllChallenges } = useChallengeActions();
+  const [search, setSearch] = useState('');
+  const { getAllDevelopers } = useDeveloperActions();
   const { debounce } = useDebounce();
 
-  const [challenges, setChallenges] = useState<PaginationResponse<ITrivia>>({
+  const [developers, setDevelopers] = useState<PaginationResponse<IDeveloper>>({
     data: [],
     pagination: {
       page: 1,
@@ -30,14 +30,14 @@ export function LowerSection() {
       pageCount: 0,
     },
   });
-  const triviaSize = challenges?.data?.length || 0;
+
   const fetchData = async (page: number = 1, searchTerm = search) => {
     setLoading(true);
 
-    const response = await getAllChallenges({ page, searchTerm });
+    const response = await getAllDevelopers({ page, searchTerm });
 
     if (response) {
-      setChallenges(response);
+      setDevelopers(response);
     }
 
     setLoading(false);
@@ -59,7 +59,7 @@ export function LowerSection() {
     <div className={styles['container']}>
       <div className={styles['top-container']}>
         <div className={styles['header']}>
-          <div className={styles['title']}>All Challenges</div>
+          <div className={styles['title']}>Top Developers</div>
           <div className={styles['download-btn']}>
             Download <FiDownloadCloud className={styles['icon']} />
           </div>
@@ -84,22 +84,16 @@ export function LowerSection() {
         </div>
       </div>
 
-      <div className={styles['cards']}>
-        {triviaSize > 0
-          ? challenges?.data?.map((trivia, index) => <Card key={index} data={trivia} />)
-          : 'No data to display here'}
-
-        {!challenges?.data && Array.from({ length: 5 }).map((_, idx) => <CardLoader key={idx} />)}
-      </div>
       <div className="flex flex-col">
-        {(loading || challenges?.data?.length > 0) && (
-          <TableExtension
-            currentPage={challenges?.pagination?.page}
-            totalPages={challenges?.pagination?.pageCount}
-            goTo={fetchData}
-            loading={loading}
-          />
-        )}
+        <Table<IDeveloper>
+          headers={developersTableHeaders}
+          columns={developersTableColumn}
+          data={developers.data}
+          loading={loading}
+          currentPage={Number(developers.pagination.page)}
+          totalPages={Number(developers.pagination.pageCount)}
+          goTo={fetchData}
+        />
       </div>
     </div>
   );

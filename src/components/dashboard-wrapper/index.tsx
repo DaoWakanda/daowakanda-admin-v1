@@ -3,9 +3,7 @@
 import React, { ReactNode } from 'react';
 import styles from './index.module.scss';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import { RiHome6Line } from 'react-icons/ri';
-import { GiJeweledChalice } from 'react-icons/gi';
+import { usePathname, useRouter} from 'next/navigation';
 import { IoIosLogOut } from 'react-icons/io';
 import { useAuthActions } from '@/actions/auth';
 import { NavItemIcon } from '@/assets/nav-item.icon';
@@ -18,6 +16,27 @@ interface Props {
 export function DashboardWrapper({ children = <></>, pageTitle = '' }: Props) {
   const { logout } = useAuthActions();
 
+  const currentLink = usePathname();
+
+  const getPageTitle = () =>{
+    switch(currentLink){
+      case `/dashboard/challenges`:
+        return `Challenges`;
+        break;
+      case`/dashboard/proposals`:
+        return `Proposals`;
+        break;
+      case `/dashboard`:
+        return `Overview`;
+        break;
+      case `/dashboard/developers`:
+        return `Developers`;
+        break;
+      default:
+        return `Submissions`;
+    }
+  }
+
   return (
     <div className={styles['container']}>
       <div className={styles['header']}>
@@ -28,7 +47,7 @@ export function DashboardWrapper({ children = <></>, pageTitle = '' }: Props) {
             alt="logo"
           />
         </Link>
-        <div className={styles['pageTitle']}>{pageTitle}</div>
+        <div className={styles['pageTitle']}>{getPageTitle()}</div>
         <div className={styles['logout']} onClick={() => logout()}>
           <IoIosLogOut className={styles['icon']} />
           Log out
@@ -72,7 +91,7 @@ function SideBar() {
   return (
     <div className={styles['sidebar-container']}>
       <div className={styles['sidebar-title']}>
-        Hi, <span>Tom</span>
+        Hi, <span>Admin</span>
       </div>
 
       <div className={styles['sidebars']}>

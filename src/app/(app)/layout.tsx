@@ -8,7 +8,7 @@ export default function AppLayout({
 }>) {
   return (
     <AuthWrapper>
-      <DashboardWrapper pageTitle="Overview">{children}</DashboardWrapper>
+      <DashboardWrapper>{children}</DashboardWrapper>
     </AuthWrapper>
   );
 }

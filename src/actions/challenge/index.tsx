@@ -1,7 +1,7 @@
 'use client';
 
 import { useClient } from '@/hooks/use-client';
-import { FetchPaginatedTrivia, ITrivia } from '@/interface/challenge.interface';
+import { FetchPaginatedTrivia, ISubmission, ITrivia } from '@/interface/challenge.interface';
 import { ICreateChallengeDto } from '@/interface/developer.interface';
 import { PaginationResponse } from '@/interface/pagination.interface';
 import { generateQueryFromObject } from '@/utils';
@@ -72,11 +72,25 @@ export const useChallengeActions = () => {
     toast.error(`${response.error}`);
   };
 
+  const getSubmissionById = async (id: string) => {
+    try {
+      const url = `trivia/submissions-by-trivia/${id}`;
+      const response = await client.get(url);
+      if (response.data) {
+        return response.data as ISubmission [];
+      }
+      toast.error(response.error?.toString() || 'Something went wrong');
+    } catch (error) {
+      toast.error(error?.toString() || 'Something went wrong');
+    }
+  };
+
   return {
     getAllChallenges,
     getChallengeById,
     createChallenge,
     updateChallenge,
     deleteChallenge,
+    getSubmissionById,
   };
 };
