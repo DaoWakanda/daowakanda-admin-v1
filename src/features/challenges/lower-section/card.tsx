@@ -12,22 +12,23 @@ interface Props {
   data: ITrivia;
 }
 export function Card({ data }: Props) {
-  const [timeLeft, setTimeLeft] = useState<string>("00:00:00:00");
+  const [timeLeft, setTimeLeft] = useState<string>('00:00:00:00');
 
   useEffect(() => {
     const updateTimer = () => {
       const currentTime = Math.floor(Date.now() / 1000);
-      const difference = (data?.endTimeStamp / 1000) - currentTime;
+      const difference = data?.endTimeStamp / 1000 - currentTime;
 
       if (difference > 0) {
         const days = Math.floor(difference / (60 * 60 * 24));
         const hours = Math.floor((difference % (60 * 60 * 24)) / (60 * 60));
         const minutes = Math.floor((difference % 3600) / 60);
         const seconds = Math.floor(difference % 60);
-  
-        const formattedTime = `${String(days).padStart(2, '0')} days ${String(hours).padStart(2, '0')} hrs ${String(
-          minutes,
-        ).padStart(2, '0')}mins ${String(seconds).padStart(2, '0')}secs`;
+
+        const formattedTime = `${String(days).padStart(2, '0')} days ${String(hours).padStart(
+          2,
+          '0',
+        )} hrs ${String(minutes).padStart(2, '0')}mins ${String(seconds).padStart(2, '0')}secs`;
         setTimeLeft(formattedTime);
       } else {
         setTimeLeft('00:00:00');
@@ -92,40 +93,19 @@ export function CardLoader() {
             <div className={styles['info']}>
               <div className={styles['date']}>
                 <RiCalendar2Fill className={styles['icon']} />
-                <Skeleton
-                  baseColor="#202020"
-                  highlightColor="#444"
-                  width={50}
-                />
+                <Skeleton baseColor="#202020" highlightColor="#444" width={50} />
               </div>
               <div className={styles['time']}>
                 <GoStopwatch className={styles['icon']} />
-                <Skeleton
-                  baseColor="#202020"
-                  highlightColor="#444"
-                  width={50}
-                />
+                <Skeleton baseColor="#202020" highlightColor="#444" width={50} />
               </div>
               <div className={styles['pro']}>
-                {
-                  <Skeleton
-                    baseColor="#202020"
-                    highlightColor="#444"
-                    width={50}
-                  />
-                }
+                {<Skeleton baseColor="#202020" highlightColor="#444" width={50} />}
               </div>
             </div>
           </div>
           <div className={styles['paragraph']}>
-            {
-              <Skeleton
-                baseColor="#202020"
-                highlightColor="#444"
-                count={3}
-                width={200}
-              />
-            }
+            {<Skeleton baseColor="#202020" highlightColor="#444" count={3} width={200} />}
           </div>
         </div>
         <div className={styles['bottom']}>
@@ -137,8 +117,7 @@ export function CardLoader() {
           </div>
           <div className={styles['dotted']}></div>
           <div className={styles['max']}>
-            Max Winners:{' '}
-            <Skeleton baseColor="#202020" highlightColor="#444" width={20} />
+            Max Winners: <Skeleton baseColor="#202020" highlightColor="#444" width={20} />
           </div>
         </div>
       </div>

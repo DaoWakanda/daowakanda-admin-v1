@@ -1,6 +1,5 @@
 import { TableColumn, TableHeaderColumn } from '@/interface/table.interface';
 import Link from 'next/link';
-import toast from 'react-hot-toast';
 import { ISubmission } from '@/interface/challenge.interface';
 import { formatDate } from '@/utils';
 
@@ -36,11 +35,7 @@ export const submissionTableColumn: TableColumn<ISubmission>[] = [
   {
     key: '',
     render: (_, data) => {
-      return (
-        <div className="font-[600]">
-          {data.developer}
-        </div>
-      );
+      return <div className="font-[600]">{data.developer}</div>;
     },
   },
   {
@@ -60,31 +55,19 @@ export const submissionTableColumn: TableColumn<ISubmission>[] = [
   {
     key: '',
     render: (_, data) => {
-      return (
-        <div className="font-[600]">
-          {data.submissionStatus}
-        </div>
-      );
+      return <div className="font-[600]">{data.submissionStatus}</div>;
     },
   },
   {
     key: '',
     render: (_, data) => {
-      return (
-        <div className="font-[600]">
-          {data.disbursementStatus}
-        </div>
-      );
+      return <div className="font-[600]">{data.disbursementStatus}</div>;
     },
   },
   {
     key: '',
     render: (_, data) => {
-      return (
-        <div className="font-[600]">
-          {formatDate(data.createdAt)}
-        </div>
-      );
+      return <div className="font-[600]">{formatDate(data.createdAt)}</div>;
     },
   },
 ];

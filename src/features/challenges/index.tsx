@@ -1,11 +1,10 @@
 'use client';
 
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import { CreateTaskModal } from '../dashboard/create-task-modal';
 import { FaPlus } from 'react-icons/fa';
 import { TaskCard, TaskCardLoader } from '../dashboard/task-card';
-import Link from 'next/link';
 import { ITrivia } from '@/interface/challenge.interface';
 import { useChallengeActions } from '@/actions/challenge';
 import { useRecoilValue } from 'recoil';

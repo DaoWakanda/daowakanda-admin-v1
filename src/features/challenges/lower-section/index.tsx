@@ -85,17 +85,11 @@ export function LowerSection() {
       </div>
 
       <div className={styles['cards']}>
-        {
-          triviaSize  > 0 ? (
-            challenges?.data?.map((trivia, index) => (
-              <Card key={index} data={trivia} />
-            ))
-          ): 'No data to display here'
-        }
+        {triviaSize > 0
+          ? challenges?.data?.map((trivia, index) => <Card key={index} data={trivia} />)
+          : 'No data to display here'}
 
-        {!challenges?.data &&
-          Array.from({ length: 5 }).map((_, idx) => <CardLoader key={idx} />)
-        }
+        {!challenges?.data && Array.from({ length: 5 }).map((_, idx) => <CardLoader key={idx} />)}
       </div>
       <div className="flex flex-col">
         {(loading || challenges?.data?.length > 0) && (
@@ -110,4 +104,3 @@ export function LowerSection() {
     </div>
   );
 }
-

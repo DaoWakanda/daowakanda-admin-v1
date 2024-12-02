@@ -1,5 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
-
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -13,12 +11,11 @@ import { BsBoxArrowInLeft } from 'react-icons/bs';
 
 export function SubmissionsPage() {
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState('');
   const params = useParams();
   const router = useRouter();
   const { getSubmissionById } = useChallengeActions();
 
-  const [submissions, setSubmissions] = useState<ISubmission []>([]);
+  const [submissions, setSubmissions] = useState<ISubmission[]>([]);
 
   const fetchData = async () => {
     if (!params?.id) return;
@@ -36,16 +33,16 @@ export function SubmissionsPage() {
     fetchData();
   }, []);
 
-  const handleBackRoute =()=>{
+  const handleBackRoute = () => {
     router.back();
-  }
-
-  console.log(submissions);
+  };
 
   return (
     <>
       <div className={styles['container']}>
-        <BsBoxArrowInLeft onClick={handleBackRoute} className={styles['icon']}/>
+        <div>
+          <BsBoxArrowInLeft color="#FFF" onClick={handleBackRoute} className={styles['icon']} />
+        </div>
         <div className="flex flex-col">
           <Table<ISubmission>
             headers={submissionTableHeaders}
@@ -56,7 +53,7 @@ export function SubmissionsPage() {
             totalPages={Number(0)}
             goTo={fetchData}
           />
-      </div>
+        </div>
       </div>
     </>
   );
