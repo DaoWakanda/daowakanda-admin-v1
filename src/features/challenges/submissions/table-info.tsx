@@ -2,6 +2,7 @@ import { TableColumn, TableHeaderColumn } from '@/interface/table.interface';
 import Link from 'next/link';
 import { ISubmission } from '@/interface/challenge.interface';
 import { formatDate } from '@/utils';
+import { SubmissionActions } from './submission-actions';
 
 export const submissionTableHeaders: TableHeaderColumn[] = [
   {
@@ -22,6 +23,9 @@ export const submissionTableHeaders: TableHeaderColumn[] = [
   },
   {
     value: 'Created Date',
+  },
+  {
+    value: '',
   },
 ];
 
@@ -46,8 +50,10 @@ export const submissionTableColumn: TableColumn<ISubmission>[] = [
           target="_blank"
           href={'https://' + data.githubLink.replaceAll('https://', '')}
           className="text-[#007AFF] line-clamp-1"
+          title={data.githubLink}
         >
-          {data.githubLink}
+          {data.githubLink.slice(0, 10)}...
+          {data.githubLink.slice(data.githubLink.length - 10)}
         </Link>
       );
     },
@@ -68,6 +74,12 @@ export const submissionTableColumn: TableColumn<ISubmission>[] = [
     key: '',
     render: (_, data) => {
       return <div className="font-[600]">{formatDate(data.createdAt)}</div>;
+    },
+  },
+  {
+    key: '',
+    render: (_, data) => {
+      return <SubmissionActions data={data} />;
     },
   },
 ];
