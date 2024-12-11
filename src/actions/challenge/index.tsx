@@ -87,8 +87,8 @@ export const useChallengeActions = () => {
 
   const updateSubmissionStatusById = async (id: string, status: 'approved' | 'rejected') => {
     try {
-      const url = `trivia/approve/${id}?status=${status}`;
-      const response = await client.get(url);
+      const url = `trivia/review-submission/${id}?status=${status}`;
+      const response = await client.patch(url);
       if (response.data) {
         return response.data;
       }
@@ -101,7 +101,7 @@ export const useChallengeActions = () => {
   const markSubmissionAsDisbursed = async (id: string) => {
     try {
       const url = `trivia/${id}/disburse?status=disbursed`;
-      const response = await client.get(url);
+      const response = await client.patch(url);
       if (response.data) {
         return response.data;
       }
