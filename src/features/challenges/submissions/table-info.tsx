@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ISubmission } from '@/interface/challenge.interface';
 import { formatDate } from '@/utils';
 import { SubmissionActions } from './submission-actions';
+import toast from 'react-hot-toast';
 
 export const submissionTableHeaders: TableHeaderColumn[] = [
   {
@@ -13,7 +14,7 @@ export const submissionTableHeaders: TableHeaderColumn[] = [
     value: 'Developer Name',
   },
   {
-    value: 'GitHub Link',
+    value: 'Submission',
   },
   {
     value: 'Submission Status',
@@ -45,16 +46,40 @@ export const submissionTableColumn: TableColumn<ISubmission>[] = [
   {
     key: '',
     render: (_, data) => {
+      if (data.githubLink.includes('https://')) {
+        return (
+          <Link
+            href={data.githubLink}
+            className="text-[#007AFF] line-clamp-1"
+            title={data.githubLink}
+          >
+            {data.githubLink.length > 25
+              ? `${data.githubLink.slice(0, 10)}...${data.githubLink.slice(
+                  data.githubLink.length - 10,
+                )}`
+              : data.githubLink}
+          </Link>
+        );
+      }
       return (
-        <Link
-          target="_blank"
-          href={'https://' + data.githubLink.replaceAll('https://', '')}
-          className="text-[#007AFF] line-clamp-1"
-          title={data.githubLink}
+        <div
+          onClick={async () => {
+            try {
+              await navigator.clipboard.writeText(data.githubLink);
+              toast.success('Text copied to clipboard.');
+            } catch (error) {
+              toast.error('Error writing text to clipboard.');
+            }
+          }}
+          className="line-clamp-1 cursor-pointer"
+          title={'Click to copy'}
         >
-          {data.githubLink.slice(0, 10)}...
-          {data.githubLink.slice(data.githubLink.length - 10)}
-        </Link>
+          {data.githubLink.length > 25
+            ? `${data.githubLink.slice(0, 10)}...${data.githubLink.slice(
+                data.githubLink.length - 10,
+              )}`
+            : data.githubLink}
+        </div>
       );
     },
   },
