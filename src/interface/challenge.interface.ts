@@ -6,7 +6,12 @@ export type TriviaStatus = 'ongoing' | 'expired';
 
 export type SubmissionStatus = 'approved' | 'pending' | 'rejected';
 
-export type DisbursementStatus = 'disbursed' | 'not_disbursed' | 'pending' | 'not_eligible' | 'eligible';
+export type DisbursementStatus =
+  | 'disbursed'
+  | 'not_disbursed'
+  | 'pending'
+  | 'not_eligible'
+  | 'eligible';
 
 export interface ITrivia {
   id: string;
@@ -35,4 +40,6 @@ export interface ISubmission {
   disbursementStatus: DisbursementStatus;
   developer: string;
   createdAt: string;
+  walletAddress: string;
+  bounty: number;
 }

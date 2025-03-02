@@ -1,5 +1,6 @@
 'use client';
 
+import { BOUNTY_SMART_CONTRACT_ID } from '@/constants';
 import { useClient } from '@/hooks/use-client';
 import { FetchPaginatedTrivia, ISubmission, ITrivia } from '@/interface/challenge.interface';
 import { ICreateChallengeDto } from '@/interface/developer.interface';
@@ -100,7 +101,7 @@ export const useChallengeActions = () => {
 
   const markSubmissionAsDisbursed = async (id: string) => {
     try {
-      const url = `trivia/${id}/disburse?status=disbursed`;
+      const url = `trivia/${id}/disburse/${BOUNTY_SMART_CONTRACT_ID}`;
       const response = await client.patch(url);
       if (response.data) {
         return response.data;

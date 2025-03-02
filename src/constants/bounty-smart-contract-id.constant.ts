@@ -1,0 +1,1 @@
+export const BOUNTY_SMART_CONTRACT_ID = 734899858;

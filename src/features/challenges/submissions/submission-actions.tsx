@@ -1,8 +1,10 @@
 import { useChallengeActions } from '@/actions';
+import { useChallengeContractActions } from '@/actions/challenge/index.contract';
 import { BackgroundOverlay } from '@/components/background-overlay';
 import { Spinner } from '@/components/spinner';
 import { ISubmission } from '@/interface/challenge.interface';
 import { RefreshSubmissionsAtom } from '@/state/challenge.atom';
+import { useWallet } from '@txnlab/use-wallet';
 import classNames from 'classnames';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -18,6 +20,8 @@ export const SubmissionActions = ({ data }: Props) => {
   const [loading, setLoading] = useState<'approve' | 'reject' | 'disburse'>();
   const setRefresh = useSetRecoilState(RefreshSubmissionsAtom);
   const { updateSubmissionStatusById, markSubmissionAsDisbursed } = useChallengeActions();
+  const { checkIfAddressIsContractCreator, disburseBounty } = useChallengeContractActions();
+  const { activeAddress } = useWallet();
 
   const handleUpdateStatus = async (type: 'approve' | 'reject') => {
     if (loading) return;
@@ -39,16 +43,33 @@ export const SubmissionActions = ({ data }: Props) => {
   };
 
   const handleDisburse = async () => {
+    if (!activeAddress) {
+      toast.error('Please connect your wallet to disburse algos');
+      return;
+    }
+
     if (loading) return;
 
     setLoading('disburse');
+
+    try {
+      await disburseBounty(data.walletAddress, data.bounty);
+      toast.success('The submission was disbursed on-chain successfully!');
+    } catch (error) {
+      toast.error(`An error occurred while disbursing the algos: ${error}`);
+      setLoading(undefined);
+      return;
+    }
+
+    toast.loading('Marking submission as disbursed...', { id: 'disburse-loading' });
     const res = await markSubmissionAsDisbursed(data.id);
 
     setLoading(undefined);
+    toast.dismiss('disburse-loading');
 
     if (res) {
       setRefresh((old) => old + 1);
-      toast.success('The submission was disbursed successfully! ');
+      toast.success('The submission was marked as disbursed successfully! ');
     }
   };
 
@@ -124,7 +145,7 @@ export const SubmissionActions = ({ data }: Props) => {
                     'hover:bg-[#f9fbff]',
                   )}
                 >
-                  {loading !== 'disburse' ? 'Mark as disbursed' : <Spinner color="#001620" />}
+                  {loading !== 'disburse' ? 'Disburse algos' : <Spinner color="#001620" />}
                 </div>
               )}
             </div>
