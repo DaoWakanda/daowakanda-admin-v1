@@ -84,8 +84,10 @@ export const developersTableColumn: TableColumn<IDeveloper>[] = [
           target="_blank"
           href={'https://' + data.githubLink.replaceAll('https://', '')}
           className="text-[#007AFF] line-clamp-1"
+          title={data.githubLink}
         >
-          {data.githubLink}
+          {data.githubLink.slice(0, 10)}...
+          {data.githubLink.slice(data.githubLink.length - 10)}
         </Link>
       );
     },

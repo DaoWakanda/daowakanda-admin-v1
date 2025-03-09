@@ -71,7 +71,7 @@ export function TaskCard({ challenge }: Props) {
         <div className="text-[#fff] font-[700] font-poppins text-2xl line-clamp-2">
           {challenge.title}
         </div>
-        <div className="flex flex-row items-center justify-between gap-1 mt-1">
+        <div className="flex flex-row flex-wrap items-center justify-between gap-1 mt-1">
           <div>
             <StopWatchIcon />
           </div>

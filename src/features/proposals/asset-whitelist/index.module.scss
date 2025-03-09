@@ -1,0 +1,125 @@
+.top-section {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  max-width: 100%;
+  align-items: center;
+  gap: 86px;
+  margin-bottom: 32px;
+
+  .right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    overflow: hidden;
+
+    .create {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 220px;
+      min-width: 100px;
+      width: 100px;
+      max-width: 100px;
+      border: 1px dashed #8e8e93;
+      border-radius: 32px;
+      cursor: pointer;
+      color: #8e8e93;
+      transition: all 0.3s;
+
+      &:hover {
+        border: 1px dashed #000;
+        color: #fff;
+      }
+    }
+  }
+}
+
+.cards {
+  display: flex;
+  gap: 16px;
+  flex-direction: row;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  overflow: auto;
+  scrollbar-width: none;
+  width: calc(100% - 100px - 16px);
+}
+
+.card {
+  display: flex;
+  height: 220px;
+  min-width: 250px;
+  max-width: 250px;
+  border-radius: 32px;
+  background: #000000;
+  color: #fff;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
+  padding: 20px;
+
+  .toolbar-icon {
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    cursor: pointer;
+    color: #fff;
+    font-size: 22px;
+  }
+
+  .edit-card-modal {
+    position: absolute;
+    border-radius: 32px;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    .overlay {
+      position: absolute;
+      background: #0000001a;
+      backdrop-filter: blur(5px);
+      width: 100%;
+      height: 100%;
+      border-radius: 16px;
+    }
+
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      background: #1f2431;
+      width: 160px;
+      padding: 16px;
+      gap: 16px;
+      border-radius: 16px;
+      justify-content: center;
+      z-index: 1;
+
+      .content {
+        display: flex;
+        padding: 8px;
+        justify-content: center;
+        align-items: center;
+        border: 0.5px solid #c7c7cc;
+        border-radius: 8px;
+        font-family: 'Poppins';
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 21px;
+        color: #c7c7cc;
+        cursor: pointer;
+        transition: all 0.3s;
+
+        &:hover {
+          background: #c7c7cc;
+          color: #1f2431;
+        }
+      }
+    }
+  }
+}

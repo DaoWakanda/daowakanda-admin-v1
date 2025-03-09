@@ -8,12 +8,15 @@ import { useChallengeActions } from '@/actions';
 import { submissionTableColumn, submissionTableHeaders } from './table-info';
 import { Table } from '@/components/table';
 import { BsBoxArrowInLeft } from 'react-icons/bs';
+import { useRecoilValue } from 'recoil';
+import { RefreshSubmissionsAtom } from '@/state/challenge.atom';
 
 export function SubmissionsPage() {
   const [loading, setLoading] = useState(true);
   const params = useParams();
   const router = useRouter();
   const { getSubmissionById } = useChallengeActions();
+  const refresh = useRecoilValue(RefreshSubmissionsAtom);
 
   const [submissions, setSubmissions] = useState<ISubmission[]>([]);
 
@@ -31,7 +34,7 @@ export function SubmissionsPage() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [refresh]);
 
   const handleBackRoute = () => {
     router.back();

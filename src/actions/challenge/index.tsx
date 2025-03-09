@@ -1,5 +1,6 @@
 'use client';
 
+import { BOUNTY_SMART_CONTRACT_ID } from '@/constants';
 import { useClient } from '@/hooks/use-client';
 import { FetchPaginatedTrivia, ISubmission, ITrivia } from '@/interface/challenge.interface';
 import { ICreateChallengeDto } from '@/interface/developer.interface';
@@ -77,7 +78,33 @@ export const useChallengeActions = () => {
       const url = `trivia/submissions-by-trivia/${id}`;
       const response = await client.get(url);
       if (response.data) {
-        return response.data as ISubmission [];
+        return response.data as ISubmission[];
+      }
+      toast.error(response.error?.toString() || 'Something went wrong');
+    } catch (error) {
+      toast.error(error?.toString() || 'Something went wrong');
+    }
+  };
+
+  const updateSubmissionStatusById = async (id: string, status: 'approved' | 'rejected') => {
+    try {
+      const url = `trivia/review-submission/${id}?status=${status}`;
+      const response = await client.patch(url);
+      if (response.data) {
+        return response.data;
+      }
+      toast.error(response.error?.toString() || 'Something went wrong');
+    } catch (error) {
+      toast.error(error?.toString() || 'Something went wrong');
+    }
+  };
+
+  const markSubmissionAsDisbursed = async (id: string) => {
+    try {
+      const url = `trivia/${id}/disburse/${BOUNTY_SMART_CONTRACT_ID}`;
+      const response = await client.patch(url);
+      if (response.data) {
+        return response.data;
       }
       toast.error(response.error?.toString() || 'Something went wrong');
     } catch (error) {
@@ -92,5 +119,7 @@ export const useChallengeActions = () => {
     updateChallenge,
     deleteChallenge,
     getSubmissionById,
+    updateSubmissionStatusById,
+    markSubmissionAsDisbursed,
   };
 };
