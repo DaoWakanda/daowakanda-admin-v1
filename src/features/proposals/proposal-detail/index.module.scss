@@ -1,0 +1,304 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 612px;
+  width: 100%;
+  background: #1F2431;
+  padding: 53px 79px 117px 44px;
+  border-top-left-radius: 40px;
+  gap: 24px;
+}
+
+.top-container{
+  display: flex;
+  flex-direction: column;
+  gap: 27px;
+  border-radius: 12px;
+  padding: 32px;
+  width: 100%;
+  height: 158px;
+  min-height: 158px;
+  border: 1px solid #fff;
+  background: linear-gradient(to right,
+   #4D4D4D4D,
+    #4D4D4D4D,
+    #4D4D4D4D,
+    #4D4D4D4D,
+    #4D4D4D4D,
+     #14AE5C);
+
+  .header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    height: 30px;
+    width: 100%;
+    color: #E8F9FF;
+
+    .title{
+      font-family: "Inter";
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 30px;
+    }
+  }
+  .description{
+    color: #E4E4E4;
+    font-family: "Inter";
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+.bottom-container{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  width: 100%;
+  height: 260px;
+}
+
+.card-voting-info, .card-results, .card-status{
+  grid-column: auto;
+  padding: 24px;
+  height: 260px;
+  width: 100%;
+  border-radius: 12px;
+  border: 0.5px solid #8E8E93;
+  background: linear-gradient(to bottom,
+  #4D4D4D4D,
+   #4D4D4D4D,
+    #14AE5C);
+}
+.card-results{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 28px;
+    width: 100%;
+
+    .heading{
+      color: #E8F9FFF2;
+      font-family: "Inter";
+      font-weight: 600;
+      font-size: 18px;
+      line-height: 28px;
+    }
+    .votes{
+      color: #E8F9FFBF;
+      font-family: "Inter";
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 16px;
+    }
+  }
+  .progress-bar{
+    background: #304256;
+    height: 16px;
+    border-radius: 1000px;
+    width: 100%;
+    display: flex;
+
+    .progress-approve, .progress-maybe, .progress-denied{
+      height: inherit;
+    }
+    .progress-approve{
+      background: #48B748;
+      border-top-left-radius: 1000px;
+      border-bottom-left-radius: 1000px;
+    }
+    .progress-maybe{
+      background: #AEAEB2;
+    }
+    .progress-denied{
+      background: #FF3B30;
+    }
+  }
+  .reports{
+    padding-top: 20px;
+    height: 112px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .report-line{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .left{
+        display: flex;
+        gap: 5px;
+        align-items: center;
+
+        .dot, .dot-maybe, .dot-denied{
+          width: 16px;
+          height: 16px;
+          border-radius: 1000px;
+          background: #48B748;
+        }
+        .dot-maybe{
+          background: #AEAEB2;
+        }
+        .dot-denied{
+          background: #FF3B30;
+        }
+        .text{
+          color: #E8F9FF;
+          font-family: "Inter";
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 20px;
+        }
+      }
+      .right{
+        color: #E8F9FFBF;
+        font-family: "Inter";
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+      }
+    }
+  }
+}
+.card-voting-info{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+
+  .status-report{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: 24px;
+    height: 100%;
+
+    .v-line{
+      background: #C7F284;
+      width: 2px;
+      height: 18px;
+      border-radius: 9999px;
+    }
+    .v-line:nth-of-type(3), .v-line:nth-of-type(4){
+      height: 4px;
+    }
+    .status-done{
+      background: #C7F284;
+      width: 24px;
+      height: 24px;
+      border-radius: 1000px;
+    }
+    .status-progress{
+      background: #C7F284;
+      width: 24px;
+      height: 24px;
+      border-radius: 1000px;
+    }
+    .status-created{
+      background: inherit;
+      border: 2px solid #D1D5DB;
+      border-radius: 1000px;
+      width: 24px;
+      height: 24px;
+    }
+  }
+  .info{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 248px;
+    height: 100%;
+
+    .text-block{
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+
+      .title{
+        color: #fff;
+        font-family: "Inter";
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 20px;
+      }
+      .text{
+        color: #E8F9FF;
+        font-family: "Inter";
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 16px;
+      }
+    }
+  }
+}
+.card-status{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .text-block{
+    display: flex;
+    height: 20px;
+    gap: 5px;
+    width: 100%;
+
+    .icon{
+      color: #E8F9FF;
+      
+    }
+    .text{
+      color: #E8F9FF;
+      font-family: "Inter";
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+
+      span{
+        color: #75E0A7;
+        font-family: "Inter";
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 24px;
+        border: 1px solid #75E0A7;;
+        border-radius: 1000px;
+        padding: 3px 9px;
+      }
+    }
+
+    
+  }
+  .text-card{
+    display: flex;
+    height: 20px;
+    gap: 5px;
+    width: 100%;
+
+    .icon{
+      color: #E8F9FF;  
+    }
+    
+    .text{
+      color: #E8F9FF;
+      font-family: "Inter";
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+
+      span{
+        color: #E8F9FF;
+        font-family: "Inter";
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 20px;
+      }
+    }
+  }
+}

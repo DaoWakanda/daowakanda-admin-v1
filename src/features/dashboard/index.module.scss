@@ -83,7 +83,8 @@
       .card {
         display: flex;
         height: 220px;
-        min-width: 200px;
+        width: 200px;
+        min-width: 250px;
         border-radius: 32px;
         background: #000000;
         color: #fff;
@@ -168,7 +169,7 @@
 .card {
   display: flex;
   height: 220px;
-  min-width: 200px;
+  width: 200px;
   border-radius: 32px;
   background: #000000;
   color: #fff;
