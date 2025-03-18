@@ -3,7 +3,7 @@
 import { useClient } from '@/hooks/use-client';
 import { IDeveloper } from '@/interface/developer.interface';
 import { FetchPaginatedDataDto, PaginationResponse } from '@/interface/pagination.interface';
-import { IAsset } from '@/interface/proposal.interface';
+import { IAsset, IProposal } from '@/interface/proposal.interface';
 import { generateQueryFromObject } from '@/utils';
 import toast from 'react-hot-toast';
 
@@ -69,11 +69,52 @@ export const useProposalActions = () => {
     toast.error(`Failed to fetch asset information: ${response.error || 'Asset does not exist'}`);
   };
 
+  const getAllProposal = async (dto: FetchPaginatedDataDto) => {
+    const query = generateQueryFromObject(dto);
+    const url = `/proposal/all?${query}`;
+
+    const response = await client.get<PaginationResponse<IProposal>>(url);
+
+    if (response.data) {
+      return response.data;
+    }
+
+    toast.error(`${response.error}`);
+  };
+
+  const getProposalById = async (appId: string) => {
+    try {
+      const url = `/proposal/${appId}`;
+      const response = await client.get(url);
+      if (response.data) {
+        return response.data as IProposal;
+      }
+      toast.error(response.error?.toString() || 'Something went wrong');
+    } catch (error) {
+      toast.error(error?.toString() || 'Something went wrong');
+    }
+  };
+
+  const deleteProposal = async (appId: string) => {
+    const url = `/proposal/${appId}`;
+
+    const response = await client.delete(url);
+
+    if (response.data) {
+      return response.data;
+    }
+
+    toast.error(`${response.error}`);
+  };
+
   return {
     getProposalAssetWhitelist,
     addAssetsToProposalWhitelist,
     addAssetToProposalWhitelist,
     removeAssetFromProposalWhitelist,
     getAssetInformation,
+    getAllProposal,
+    getProposalById,
+    deleteProposal,
   };
 };
