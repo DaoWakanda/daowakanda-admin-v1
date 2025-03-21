@@ -1,0 +1,51 @@
+.container {
+  display: flex;
+  max-width: 497px;
+  height: 40px;
+  border: 1px solid#D0D5DD;
+  border-radius: 8px;
+  align-self: center;
+  background: #78788033;
+}
+
+.btn-container{
+  display: flex;
+  gap: 8px;
+  color: #C7C7CC;
+  align-items: center;
+  padding: 10px 16px;
+  cursor: pointer;
+
+  .btn-icon{
+    width: 20px;
+    height: 20px;
+  }
+
+  .btn-move{
+    font-family: "Inter";
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+
+.btn-btn, .btn-active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #C7C7CC;
+  width: 40px;
+  height: 40px;
+  font-family: "Inter";
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 9px 8px;
+  border-left: 1px solid#D0D5DD;
+  border-right: 1px solid#D0D5DD;
+}
+.btn-active{
+  color: #1D2939;
+  background: #8E8E93;
+}
+

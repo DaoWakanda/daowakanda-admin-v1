@@ -122,15 +122,19 @@ export const ProposalCards = () => {
           {loadingData &&
             Array.from({ length: 10 }).map((_, index) => <ProposalCardLoader key={index} />)}
         </div>
-        <Pagination
-          page={paginationData?.page}
-          numOfItemsPerPage={paginationData?.numOfItemsPerPage}
-          itemCount={paginationData?.itemCount}
-          pageCount={paginationData?.pageCount}
-          hasPreviousPage={paginationData?.hasPreviousPage}
-          hasNextPage={paginationData?.hasNextPage}
-          onPageChange={(page)=>fetchAllProposal(page)}
-        />
+        <div className={styles['pagination-container']}>
+          <Pagination
+            loading={loadingData}
+            page={paginationData?.page}
+            numOfItemsPerPage={paginationData?.numOfItemsPerPage}
+            itemCount={paginationData?.itemCount}
+            pageCount={paginationData?.pageCount}
+            hasPreviousPage={paginationData?.hasPreviousPage}
+            hasNextPage={paginationData?.hasNextPage}
+            onPageChange={(page)=>fetchAllProposal(page)}
+          />
+        </div>
+      
       </div>
     </div>
   );

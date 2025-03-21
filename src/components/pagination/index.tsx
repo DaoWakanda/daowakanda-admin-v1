@@ -1,5 +1,7 @@
 import React from "react";
-
+import styles from './index.module.scss';
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import Skeleton from "react-loading-skeleton";
 interface Props {
   page: number;
   numOfItemsPerPage: number;
@@ -8,6 +10,7 @@ interface Props {
   hasPreviousPage: boolean;
   hasNextPage: boolean;
   onPageChange: (page: number) => void;
+  loading: boolean;
 }
 
 const Pagination = ({
@@ -18,41 +21,58 @@ const Pagination = ({
   hasPreviousPage = false,
   hasNextPage = false,
   onPageChange,
+  loading,
 }:Props) => {
-// Generate page numbers
 const pages = Array.from({ length: pageCount }, (_, i) => i + 1);
 
 return (
-  <div className="flex items-center gap-2 mt-4">
-    {/* Previous Button */}
-    <button
-      className={`px-3 py-1 rounded ${hasPreviousPage ? "bg-blue-500 text-white" : "bg-gray-300 text-gray-500 cursor-not-allowed"}`}
-      onClick={() => hasPreviousPage && onPageChange(page - 1)}
-      disabled={!hasPreviousPage}
-    >
-      Prev
-    </button>
-
-    {/* Page Numbers */}
-    {pages.map((p) => (
-      <button
-        key={p}
-        className={`px-3 py-1 rounded ${p === page + 1 ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700"}`}
-        onClick={() => onPageChange(p)}
-      >
-        {p}
-      </button>
-    ))}
-
-    {/* Next Button */}
-    <button
-      className={`px-3 py-1 rounded ${hasNextPage ? "bg-blue-500 text-white" : "bg-gray-300 text-gray-500 cursor-not-allowed"}`}
-      onClick={() => hasNextPage && onPageChange(page + 1)}
-      disabled={!hasNextPage}
-    >
-      Next
-    </button>
-  </div>
+  <>
+    {
+      loading? (
+        <Skeleton className={styles['container']} 
+          highlightColor="#353C52" 
+          baseColor="#576183" 
+          width={200} 
+          height={28} 
+        />
+      ) : (
+        <div className={styles['container']}>
+        <div className={styles['btn-container']}>
+          <FaArrowLeft className={styles['btn-icon']}/>
+          <button
+            className={styles['btn-move']}
+            onClick={() => hasPreviousPage && onPageChange(page - 1)}
+            disabled={!hasPreviousPage}
+          >
+            Previous
+          </button>
+        </div>
+        
+        {pages.map((p) => (
+          <button
+            key={p}
+            className={styles[p === page? 'btn-active': 'btn-btn']}
+            onClick={() => onPageChange(p)}
+          >
+            {p}
+          </button>
+        ))}
+        
+        <div className={styles['btn-container']}>
+          <button
+            className={styles['btn-move']}
+            onClick={() => hasNextPage && onPageChange(page + 1)}
+            disabled={!hasNextPage}
+          >
+            Next
+          </button>
+          <FaArrowRight className={styles['btn-icon']}/>
+        </div>
+      </div>
+      )
+    }
+  </>
+ 
 );
 };
 
