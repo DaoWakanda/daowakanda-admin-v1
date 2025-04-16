@@ -86,13 +86,41 @@ export const submissionTableColumn: TableColumn<ISubmission>[] = [
   {
     key: '',
     render: (_, data) => {
-      return <div className="font-[600]">{data.submissionStatus}</div>;
+      return (
+        <div
+          className={`font-[600] capitalize ${
+            data.submissionStatus === 'approved'
+              ? 'text-green-500'
+              : data.submissionStatus === 'rejected'
+              ? 'text-red-500'
+              : 'text-yellow-500'
+          }`}
+        >
+          {data.submissionStatus}
+        </div>
+      );
     },
   },
   {
     key: '',
     render: (_, data) => {
-      return <div className="font-[600]">{data.disbursementStatus}</div>;
+      return (
+        <div
+          className={`font-[600] capitalize ${
+            data.disbursementStatus === 'disbursed'
+              ? 'text-green-500'
+              : data.disbursementStatus === 'not_disbursed'
+              ? 'text-red-500'
+              : data.disbursementStatus === 'not_eligible'
+              ? 'text-red-500'
+              : data.disbursementStatus === 'eligible'
+              ? 'text-green-500'
+              : 'text-yellow-500'
+          }`}
+        >
+          {data.disbursementStatus.replace(/_/g, ' ')}
+        </div>
+      );
     },
   },
   {

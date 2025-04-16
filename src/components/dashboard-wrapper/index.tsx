@@ -121,7 +121,15 @@ function SideBar() {
       <div className={classNames(styles['sidebars'], 'h-full')}>
         {MenuNames.map((item, index) => (
           <div
-            className={styles[currentUrl.includes(item.link) ? 'navItem-active' : 'navItem']}
+            className={
+              styles[
+                currentUrl === '/dashboard' && item.link === '/dashboard'
+                  ? 'navItem-active'
+                  : currentUrl.includes(item.link) && item.link !== '/dashboard'
+                  ? 'navItem-active'
+                  : 'navItem'
+              ]
+            }
             onClick={() => {
               push(item.link);
             }}
