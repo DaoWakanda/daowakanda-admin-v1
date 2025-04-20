@@ -48,6 +48,13 @@ export const SubmissionActions = ({ data }: Props) => {
       return;
     }
 
+    const { isCreator, creatorAddress } = await checkIfAddressIsContractCreator();
+
+    if (!isCreator) {
+      toast.error('Only the contract creator can disburse algos');
+      return;
+    }
+
     if (loading) return;
 
     setLoading('disburse');

@@ -46,27 +46,13 @@ export const useChallengeContractActions = () => {
         totalAmount = Number(algokit.algos(bounty)) + mbrCostForBountyBox;
       }
 
-      const appAddress = algosdk.getApplicationAddress(BOUNTY_SMART_CONTRACT_ID);
       const suggestedParams = await algod.getTransactionParams().do();
-      const paymentTxn = makePaymentTxnWithSuggestedParamsFromObject({
-        from: activeAddress,
-        to: appAddress,
-        amount: totalAmount,
-        suggestedParams,
-      });
 
       const atomTransactionComposer = new algosdk.AtomicTransactionComposer();
 
       atomTransactionComposer.addMethodCall({
-        method: appClient.getABIMethod('issueBounty')!,
-        methodArgs: [
-          {
-            txn: paymentTxn,
-            signer,
-          },
-          algokit.algos(bounty).microAlgos,
-          algosdk.decodeAddress(recipient).publicKey,
-        ],
+        method: appClient.getABIMethod('issueBountyWithoutPayment')!,
+        methodArgs: [algokit.algos(bounty).microAlgos, algosdk.decodeAddress(recipient).publicKey],
         suggestedParams,
         sender: activeAddress,
         signer,
