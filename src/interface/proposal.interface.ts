@@ -12,3 +12,17 @@ export interface IAsset {
   usd_value: string | null;
   is_collectible: boolean;
 }
+
+export interface IProposal {
+  appId: string;
+  asaId: string;
+  title: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  creator: string;
+  ongoing: boolean;
+  registeredVoters: string[];
+  yesVotes: string[];
+  noVotes: string[];
+}
